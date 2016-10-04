@@ -14,23 +14,16 @@ public class ForgotPasswordPage extends BasePage {
     private WebElement continueButton;
 
 
-    public void passwordAssistance(String emailKey) {
-        email.clear ();
-        email.sendKeys (emailKey);
+    public void startAssistance() {
+
         continueButton.click ();
 
     }
 
     public ForgotPasswordPage(WebDriver driver) {
         super (driver);
-        setPageUrl ("Amazon Forgot Your Password");
 
     }
-
-    private void setPageUrl(String s) {
-    }
-
-
 }
 
     

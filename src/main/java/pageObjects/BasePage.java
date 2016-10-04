@@ -3,23 +3,28 @@ package pageObjects;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.How;
-
-import static org.junit.Assert.assertEquals;
 
 
 public class BasePage {
     WebDriver driver;
 
-    public BasePage(WebDriver driver)
-
-    {
-
+    public BasePage(WebDriver driver) {
         this.driver = driver;
     }
 
-    //большая кнопка
-    @FindBy (how = How.ID, using = "nav-link-yourAccount")
+    // The method which uses for all pages
+    public String getTitle() {
+        return (getDriver ().getTitle ());
+    }
+
+
+    public WebDriver getDriver() {
+
+        return driver;
+    }
+
+    //Your Account link
+    @FindBy (id = "nav-link-yourAccount")
     private WebElement start;
 
 
@@ -27,68 +32,36 @@ public class BasePage {
     private WebElement sign_in;
 
 
-    @FindBy (how = How.LINK_TEXT, using = "Start here")
+    @FindBy (linkText = "Start here")
     private WebElement start_here;
 
 
-    @FindBy (id = "auth-fpp-link-bottom")
-    private WebElement forgotPassword;
+    //Search field
+    @FindBy (id = "twotabsearchtextbox")
+    private WebElement searchField;
+
+    @FindBy (css = "input.nav-input")
+    private WebElement searchButton;
 
 
-    //регистрация нового юзера
+    //a New user Registration
     public void startRegistration() {
         start_here.click ();
-
-
     }
 
 
-    //залогинивание юзера
+    //Login action
     public void startLogin() {
+
         start.click ();
-        //sign_in.click ();
-
     }
 
-    // проверка что юзер успешно залогинен
-    public void checkPassLoginAction() {
-        assertEquals ("Amazon.com: Online Shopping for Electronics, Apparel, Computers, Books, DVDs & more", driver.getTitle ());
-
+    //Checking the Search function  for unregistered user
+    public void searchItems(String item) {
+        searchField.click ();
+        searchField.sendKeys (item);
+        searchButton.click ();
     }
-
-    // проверка что залогинивание юзера зафейлилось
-    public void checkFailLoginAction() {
-        assertEquals ("Amazon Sign In", driver.getTitle ());
-
-
-    }
-
-    public void startForgotPassword() {
-        forgotPassword.click ();
-    }
-
-
-    // проверка
-    public void checkForgotPassword() {
-        assertEquals ("Amazon Forgot Your Password", driver.getTitle ());
-
-
-    }
-
-    // проверка
-    public void checkForgotPasswEmpty() {
-        assertEquals ("Amazon Forgot Your Password", driver.getTitle ());
-
-
-    }
-
-    // подтвеждение email для воостановления пароля
-    public void checkConfirmEmail() {
-        assertEquals ("Amazon Forgot Your Password", driver.getTitle ());
-
-
-    }
-
 }
 
 

@@ -1,54 +1,69 @@
 package TestsObject;
 
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
+
 
 public class TestLogin extends TestBase {
 
-    //успешное залогиниванние
+    //Login Success
     @Test
-    public void testLoginSuccess() {
-        LOG.info ( "Begin login testLoginSuccess" );
+    public void testLoginSuccess() throws InterruptedException {
+        LOG.info ("Begin Login Success");
         BasePage.startLogin ();
         LoginPage.loginAction (USERNAME, PASSWORD);
-        BasePage.checkPassLoginAction ();// проверка успешного ввода
+        LoginSuccessPage.goToUserAccount ();
+        Assert.assertEquals (LoginSuccessPage.getTitle (), "Amazon.com - Your Account");
     }
 
-    //неуспешное залогинивание - неверные данные ввода
+    //Login Unsuccess - Wrong Username
     @Test
     public void testWrongUsername() {
-        LOG.info ( "Begin login inputUnSuccess" );
+        LOG.info ("Begin enter wrong username");
         BasePage.startLogin ();
-        LoginPage.loginAction (USERNAME + "a",PASSWORD);
-        BasePage.checkFailLoginAction ();// проверка результатов неуспешного ввода
+        LoginPage.loginAction (USERNAME + "a", PASSWORD);
+        Assert.assertEquals (BasePage.getTitle (), "Amazon Sign In");
     }
 
-    // неуспешное залогинивание - пустой email
+    // Login unsuccess - Empty Email
     @Test
     public void testEmptyEmail() {
-        LOG.info ( "Begin login testEmptyEmail" );
+        LOG.info ("Begin enter an empty Email");
         BasePage.startLogin ();
-        LoginPage.loginAction ( "", PASSWORD);
-        BasePage.checkFailLoginAction ();// проверка результатов ввода пустого емейлф
-
+        LoginPage.loginAction ("", PASSWORD);
+        Assert.assertEquals (BasePage.getTitle (), "Amazon Sign In");
     }
 
-    // неуспешное залогинивание - пустой password
+    //Login unsuccess - Empty Password
     @Test
     public void testEmptyPassword() {
-        LOG.info ( "Begin login testEmptyPassword" );
+        LOG.info ("Begin enter an empty password");
         BasePage.startLogin ();
         LoginPage.loginAction (USERNAME, "");
-        BasePage.checkFailLoginAction ();// проверка результатов ввода пустого пароля
+        Assert.assertEquals (BasePage.getTitle (), "Amazon Sign In");
     }
 
-    // неуспешное залогинивание - невалидный ввод данных
+    // Login unsuccess - Invalid Data
     @Test
     public void testInvalidData() {
-        LOG.info ( "Begin login inputInvalidData" );
+        LOG.info ("Begin input invalid data");
         BasePage.startLogin ();
-        LoginPage.loginAction ("#$%^&*.ua@gmail.com", "?><" );
-        BasePage.checkFailLoginAction ();// проверка результатов ввода пустого пароля
+        LoginPage.loginAction ("#$%^&*.ua@gmail.com", "?><");
+        Assert.assertEquals (BasePage.getTitle (), "Amazon Sign In");
+    }
+
+
+    //LogOut
+    @Test
+    public void testLogOut() throws InterruptedException {
+        LOG.info ("Begin LogOut");
+        BasePage.startLogin ();
+        LoginPage.loginAction (USERNAME, PASSWORD);
+        LoginSuccessPage.goToUserAccount ();
+        LoginSuccessPage.goToLogOut ();
+        LoginSuccessPage.waitFor ();
+        Assert.assertEquals (LoginPage.getTitle (), "Amazon Sign In");
     }
 }
 

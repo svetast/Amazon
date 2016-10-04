@@ -22,40 +22,49 @@ public class TestBase {
     public static final Logger LOG = Logger.getLogger (TestBase.class);
 
 
-
     WebDriver driver;
     pageObjects.BasePage BasePage;
     pageObjects.LoginPage LoginPage;
-    pageObjects.ErrorPage ErrorPage;
     pageObjects.RegistrationPage RegistrationPage;
     pageObjects.ForgotPasswordPage ForgotPasswordPage;
+    pageObjects.LoginSuccessPage LoginSuccessPage;
+    pageObjects.ConfirmForgotPasswordPage ConfirmForgotPasswordPage;
+    pageObjects.ResultSearchPage ResultSearchPage;
+    pageObjects.PasswordAssistancePage PasswordAssistancePage;
+
 
     @BeforeMethod
     public void beforeMethod() {
         driver = new FirefoxDriver ();
         driver.manage ().timeouts ().implicitlyWait (20, TimeUnit.SECONDS);
         driver.get (URL);
-        PropertyConfigurator.configure ( "src/log4j.properties" );
+        PropertyConfigurator.configure ("src/log4j.properties");
 
         BasePage = PageFactory.initElements (driver, pageObjects.BasePage.class);
         LoginPage = PageFactory.initElements (driver, pageObjects.LoginPage.class);
-        ErrorPage = PageFactory.initElements (driver, pageObjects.ErrorPage.class);
         RegistrationPage = PageFactory.initElements (driver, pageObjects.RegistrationPage.class);
         ForgotPasswordPage = PageFactory.initElements (driver, pageObjects.ForgotPasswordPage.class);
+        LoginSuccessPage = PageFactory.initElements (driver, pageObjects.LoginSuccessPage.class);
+        ConfirmForgotPasswordPage = PageFactory.initElements (driver, pageObjects.ConfirmForgotPasswordPage.class);
+        ResultSearchPage = PageFactory.initElements (driver, pageObjects.ResultSearchPage.class);
+        PasswordAssistancePage = PageFactory.initElements (driver, pageObjects.PasswordAssistancePage.class);
+
     }
 
-    private static String getRandomString(){
-        Random randomGenerator = new Random();
-        Integer randInt = randomGenerator.nextInt(10000);
-        return randInt.toString();
+    private static String getRandomString() {
+        Random randomGenerator = new Random ();
+        Integer randInt = randomGenerator.nextInt (10000);
+        return randInt.toString ();
     }
 
     public static String getNewUserName() {
+
         return NAME + getRandomString () + EMAIL_DOMAIN;
     }
 
     @AfterMethod
     public void afterMethod() {
+
         driver.quit ();
     }
 }

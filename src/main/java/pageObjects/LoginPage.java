@@ -20,8 +20,14 @@ public class LoginPage extends BasePage {
     @FindBy (id = "ap_password")
     private WebElement password;
 
+    @FindBy (linkText = "Forgot your password?")
+    private WebElement forgotPassword;
+
     @FindBy (id = "signInSubmit")
-    private WebElement submit;
+    private WebElement submitButton;
+
+    @FindBy (id = "createAccountSubmit")
+    private WebElement createAccount;
 
 
     public void loginAction(String usernameKey, String passwordKey) {
@@ -30,9 +36,18 @@ public class LoginPage extends BasePage {
         email.sendKeys (usernameKey);
         password.clear ();
         password.sendKeys (passwordKey);
-        submit.click ();
-
+        submitButton.click ();
     }
 
+    public void forgotPasswordAction() {
+        email.clear ();
+        forgotPassword.click ();
+    }
+
+
+    public void startRegistration() {
+
+        createAccount.click ();
+    }
 }
 
